@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>NPU on Ruibn的博客</title><link>https://ruibn.github.io/zh/tags/npu/</link><description>Recent content in NPU on Ruibn的博客</description><generator>Hugo -- 0.145.0</generator><language>zh</language><lastBuildDate>Sat, 22 Mar 2025 21:06:30 +0800</lastBuildDate><atom:link href="https://ruibn.github.io/zh/tags/npu/index.xml" rel="self" type="application/rss+xml"/><item><title>Ascend NPU 已知问题及解决方案</title><link>https://ruibn.github.io/zh/posts/ascend-npu-known-issue-and-solution/</link><pubDate>Sat, 22 Mar 2025 21:06:30 +0800</pubDate><guid>https://ruibn.github.io/zh/posts/ascend-npu-known-issue-and-solution/</guid><description>&lt;h2 id="transformers推理中仅支持贪心采样">transformers推理中仅支持贪心采样&lt;/h2>
+&lt;p>在使用 &lt;a href="https://github.com/huggingface/transformers">&lt;strong>transformers&lt;/strong>&lt;/a> 进行推理时，如果不进行代码修改，你会发现它只能支持贪婪搜索。当你尝试为 generate() 函数启用 do_sample 功能时，你可能会遇到如下 ACL 问题：&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-log" data-lang="log">RuntimeError: ACL stream synchronize failed, error code:507018
+[W compiler_depend.ts:409] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.371.588 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeUsedDevices)
+[W compiler_depend.ts:392] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.373.863 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeDevice)
+[W compiler_depend.ts:392] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.375.369 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeDevice)
+[W compiler_depend.ts:392] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.394.159 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeDevice)
+[W compiler_depend.ts:392] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.395.596 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeDevice)
+[W compiler_depend.ts:392] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.397.006 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeDevice)
+[W compiler_depend.ts:392] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.398.441 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeDevice)
+[W compiler_depend.ts:392] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.399.848 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeDevice)
+[W compiler_depend.ts:392] Warning: NPU warning, error code is 507018[Error]:
+[Error]: The aicpu execution is abnormal.
+Rectify the fault based on the error information in the ascend log.
+EH9999: Inner Error!
+rtDeviceSynchronize execute failed, reason=[aicpu exception][FUNC:FuncErrorReason][FILE:error_message_manage.cc][LINE:53]
+EH9999: [PID: 37944] 2025-03-19-06:12:26.401.257 wait for compute device to finish failed, runtime result = 507018.[FUNC:ReportCallError][FILE:log_inner.cpp][LINE:161]
+TraceBack (most recent call last):
+(function npuSynchronizeDevice)
+/root/miniconda3/envs/MindIE_1.0.T65/lib/python3.10/tempfile.py:869: ResourceWarning: Implicitly cleaning up &amp;lt;TemporaryDirectory &amp;#39;/tmp/tmp8tky0pbq&amp;#39;&amp;gt;
+_warnings.warn(warn_message, ResourceWarning)
+[ERROR] 2025-03-19-06:12:27 (PID:37944, Device:1, RankID:-1) ERR99999 UNKNOWN application exception
+&lt;/code>&lt;/pre>&lt;p>这是由于 Ascend NPU(910A) 无法正确支持把 float(&amp;lsquo;Inf&amp;rsquo;) 作为 torch.Tensor.masked_fill 的 filter_value 的问题。这种情况下，logits_processor 会出现将 &amp;rsquo;nan&amp;rsquo; 填充到 next_token_scores 中的现象。&lt;/p></description></item></channel></rss>
